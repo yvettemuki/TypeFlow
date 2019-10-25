@@ -55,5 +55,43 @@ class PlantUML2ModelTest extends FunSpec with Matchers {
       flow.connections.count(conn => conn.toInstanceId == "AddAndPrint") shouldBe 2
       flow.connections.count(conn => conn.toInstanceId == "PrintEP") shouldBe 1
     }
+    it("can transform from more complex plantuml string to type flow model") {
+      val puml = ReadFile.execute(Path("./fixtures/typeflow_editor.puml")).get
+      val model = PlantUML2Model.execute(PlantUML("typeflow_editor", puml))
+      model.name shouldBe "typeflow_editor"
+      model.definitions.size shouldBe 13
+      model.definitions.map(_.name) should contain("UserInputEndpoint")
+      model.definitions.map(_.name) should contain("UserInputInterpreter")
+      model.definitions.map(_.name) should contain("WrapOutput")
+      model.definitions.map(_.name) should contain("CommandLineOutputEndpoint")
+      model.definitions.map(_.name) should contain("getModelPath1")
+      model.definitions.map(_.name) should contain("command2ModelName1")
+      model.definitions.map(_.name) should contain("getModelPath2")
+      model.definitions.map(_.name) should contain("readFile1")
+      model.definitions.map(_.name) should contain("json2Model1")
+      model.definitions.map(_.name) should contain("command2ModelName2")
+      model.definitions.map(_.name) should contain("getModelPath3")
+      model.definitions.map(_.name) should contain("readFile2")
+      model.definitions.map(_.name) should contain("json2Model2")
+
+      val userInput: InputEndpoint = model.definitions.find(_.name == "UserInputEndpoint").get.asInstanceOf[InputEndpoint]
+      userInput.outputType.name shouldBe "UIE::UserInput"
+      val getModelPath2: PureFunction = model.definitions.find(_.name == "getModelPath2").get.asInstanceOf[PureFunction]
+      getModelPath2.inputs.size shouldBe 1
+      getModelPath2.inputs.head shouldBe Input(InputType("String"), 1)
+      val readFile2: OutputEndpoint = model.definitions.find(_.name == "readFile2").get.asInstanceOf[OutputEndpoint]
+      readFile2.inputs.size shouldBe 1
+      readFile2.inputs.head shouldBe Input(InputType("Path"), 1)
+
+      val flow = model.activeFlow.get
+      flow.name shouldBe model.name
+      flow.instances.size shouldBe
+      flow.instances.exists(_.id == "UserInputEndpoint") shouldBe true
+      flow.instances.exists(_.definition.name == "UserInputEndpoint") shouldBe true
+      flow.connections.size shouldBe 12
+      flow.connections.count(conn => conn.fromInstanceId == "UserInputInterpreter") shouldBe 8
+      flow.connections.count(conn => conn.toInstanceId == "WrapOutput") shouldBe 4
+
+    }
   }
 }

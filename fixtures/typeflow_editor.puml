@@ -13,6 +13,20 @@ class command2ModelName2 <<PureFunction>>
 class getModelPath3 <<PureFunction>>
 class readFile2 <<OutputEndpoint>>
 class json2Model2 <<PureFunction>>
+class CreateNewModel <<PureFunction>>
+class Command2ModelName <<PureFunction>>
+class ReadFile <<PureFunction>>
+class Json2Model <<PureFunction>>
+class Model2Json <<PureFunction>>
+class SaveToFile <<PureFunction>>
+class OnSaveModelSuccess <<PureFunction>>
+class AddDefinition <<PureFunction>>
+class ConnectModelElement <<PureFunction>>
+class Model2PlantUML <<PureFunction>>
+class SavePlantUML <<PureFunction>>
+class Model2ModelName <<PureFunction>>
+class GetModelPath <<PureFunction>>
+class CreateFlow <<PureFunction>>
 
 UserInputEndpoint --> UIE::UserInput
 UIE::UserInput --> UserInputInterpreter

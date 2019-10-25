@@ -15,8 +15,8 @@ object Fixtures {
       Output(OutputType("UII::AddFunctionCommand"), 5),
       Output(OutputType("UII::AddOutputEndpointCommand"), 6),
       Output(OutputType("UII::CreateFlowCommand"), 7),
-      Output(OutputType("UII::AddInstanceCommand"), 8),
-      Output(OutputType("UII::ConnectElementCommand"), 9)
+      //Output(OutputType("UII::AddInstanceCommand"), 8),
+      Output(OutputType("UII::ConnectElementCommand"), 8)
     ))
   val command2ModelName: PureFunction = PureFunction("Command2ModelName", Vector(Input(InputType(s"ChangeModelCommand"), 1)), Vector(Output(OutputType("C2MN::String"), 1)))
   val wrapOutput: domain.PureFunction = domain.PureFunction("WrapOutput", inputs = Vector(Input(InputType("Object"), 1)),
