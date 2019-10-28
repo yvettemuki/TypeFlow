@@ -2,21 +2,23 @@
 @startuml
 
 skinparam class {
-	BackgroundColor<<InputEndpoint>> BurlyWood
 	BackgroundColor<<CommandLineInputEndpoint>> BurlyWood
+	BackgroundColor<<AliyunHttpInputEndpoint>> BurlyWood
 	BackgroundColor<<OutputEndpoint>> BurlyWood
 }
 
-class NumInput <<CommandLineInputEndpoint>>
+class NumInput <<AliyunHttpInputEndpoint>>
 class Add2 <<PureFunction>>
-class AddAndPrint <<OutputEndpoint>>
+class Add <<PureFunction>>
 class Multi3 <<PureFunction>>
 
 NumInput --> NI::Integer
 NI::Integer --> Add2
 NI::Integer --> Multi3
 Add2 --> A2::Integer
-A2::Integer --> AddAndPrint
+A2::Integer --> Add
 Multi3 --> M3::Integer
-M3::Integer --> AddAndPrint
+M3::Integer --> Add
+Add --> A::Integer
+A::Integer --> NumInput
 @enduml
